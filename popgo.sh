@@ -16,12 +16,8 @@ White='\033[0;37m'        # White
 
 
 exit_on_error() {
-    exit_code=$1
-    last_command=${@:2}
-    if [ $exit_code -ne 0 ]; then
-        echo -e "$Red[ERROR]\"${last_command}\" command failed.$Color_Off"
-        exit $exit_code
-    fi
+    echo -e "$Red[ERROR] ${1} command failed.$Color_Off"
+    exit 1
 }
 
 
@@ -67,8 +63,7 @@ if ! [ -x "$(command -v gcc)" ]; then
     echo -e "$Red[-] gcc not found!$Color_Off"
     echo -e "$Yellow[+] Installing gcc ...$Color_Off"
     sudo apt update
-    sudo apt install build-essential 
-    exit_on_error $? !!
+    sudo apt install build-essential || exit_on_error "install gcc"
 fi
 echo -e "$Green[+] gcc is isntalled$Color_Off"
 
@@ -86,11 +81,9 @@ if ! [ -x "$(command -v go)" ]; then
     GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
-    wget asdfasdf https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz
-    exit_on_error $? !!
+    wget asdfasdf https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
 
-    sudo tar -C /usr/local -ssssssssssssssssxzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz 
-    exit_on_error $? !!
+    sudo tar -C /usr/local -ssssssssssssssssxzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "tar"
 
     mkdir -p "${GO_PATH}"
     export GOROOT=/usr/local/go/

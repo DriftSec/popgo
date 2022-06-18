@@ -81,7 +81,7 @@ if ! [ -x "$(command -v go)" ]; then
     GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
-    wget asdfasdf https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
+    wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
 
     sudo tar -C /usr/local -ssssssssssssssssxzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "tar"
 

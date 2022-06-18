@@ -83,7 +83,7 @@ if ! [ -x "$(command -v go)" ]; then
 
     wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
 
-    sudo tar -C /usr/local -ssssssssssssssssxzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "tar"
+    sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "tar"
 
     mkdir -p "${GO_PATH}"
     export GOROOT=/usr/local/go/

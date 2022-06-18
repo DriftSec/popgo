@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 GO_VERSION_DEFAULT="1.18.2"
 GO_PATH_DEFAULT="$HOME/go"
 
@@ -13,6 +13,12 @@ Blue='\033[0;34m'         # Blue
 Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
+
+
+exit_on_error() {
+    echo -e "$Red[ERROR] ${1} command failed.$Color_Off"
+    exit 1
+}
 
 
 declare -a GETS=(
@@ -75,9 +81,9 @@ if ! [ -x "$(command -v go)" ]; then
     GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
-    wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz
+    wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
 
-    sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz 
+    sudo tar -C /usr/local -ssssssssssssssssxzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "tar"
 
     mkdir -p "${GO_PATH}"
     export GOROOT=/usr/local/go/

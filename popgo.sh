@@ -58,10 +58,9 @@ if ! [ -x "$(command -v gcc)" ]; then
     echo -e "$Red[-] gcc not found!$Color_Off"
     echo -e "$Yellow[+] Installing gcc ...$Color_Off"
     sudo apt update
-    sudo apt install build-essential
-else
-    echo -e "$Green[+] gcc is isntalled$Color_Off"
+    sudo apt install build-essential || echo -e "$Red[ERROR] failed to isntall gcc$Color_Off"; exit 1
 fi
+echo -e "$Green[+] gcc is isntalled$Color_Off"
 
 if ! [ -x "$(command -v go)" ]; then
     echo -e "$Red[-] Go not found!$Color_Off"
@@ -77,8 +76,8 @@ if ! [ -x "$(command -v go)" ]; then
     GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
-    wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz
-    sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz 
+    wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || echo -e "$Red[ERROR] failed to download go$Color_Off"; exit 1
+    sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz || echo -e "$Red[ERROR] failed to extract go$Color_Off"; exit 1
     mkdir -p "${GO_PATH}"
     export GOROOT=/usr/local/go/
     export GOPATH="${GO_PATH}"
@@ -88,12 +87,11 @@ if ! [ -x "$(command -v go)" ]; then
     echo "export PATH=\$GOPATH/bin:\$GOROOT/bin:\$PATH" >> ${HOME}/.bashrc
     source ${HOME}/.bashrc
     sleep 1  
-else
-    echo -e "$Green[+] Go is isntalled$Color_Off"
 fi
+echo -e "$Green[+] Go is installed$Color_Off"
 
 # GO111MODULE=auto
 for var in "${GETS[@]}"; do
   echo -e "$Yellow[+] Installing ${var}$Color_Off"
-  go install ${var}@latest
+  go install ${var}@latest || echo -e "$Red[ERROR] failed to isntall ${var}$Color_Off"
 done

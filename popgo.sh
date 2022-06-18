@@ -1,5 +1,4 @@
 #!/bin/bash
-# # Reset
 
 GO_VERSION_DEFAULT="1.18.3"
 GO_PATH_DEFAULT="$HOME/go"

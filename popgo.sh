@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GO_VERSION_DEFAULT="1.18.3"
+GO_VERSION_DEFAULT="1.18.2"
 GO_PATH_DEFAULT="$HOME/go"
 
 Color_Off='\033[0m'       # Text Reset
@@ -13,14 +13,6 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
-
-read -p "What version of Go are we installing? [1.18.3]> " GO_VERSION
-GO_VERSION=${GO_VERSION:-$GO_VERSION_DEFAULT}
-echo -e "$Yellow[!] Using $GO_VERSION$Color_Off"
-
-read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
-GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
-echo -e "$Yellow[!] Using $GO_PATH$Color_Off"
 
 
 
@@ -72,8 +64,19 @@ else
 fi
 
 if ! [ -x "$(command -v go)" ]; then
-    echo -e "$Red[-] go not found!$Color_Off"
+    echo -e "$Red[-] Go not found!$Color_Off"
+
+    echo -e "$Blue[!] Finding latest version of Go for Linux amd64...$Color_Off"
+    url="$(wget -qO- https://go.dev/dl/ | grep -oP '/dl/go([0-9\.]+)\.linux-amd64\.tar\.gz' | head -n 1 )"
+    GO_VERSION="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
+    GO_VERSION=${GO_VERSION:-$GO_VERSION_DEFAULT}
     echo -e "$Yellow[+] Installing Go version ${GO_VERSION} ...$Color_Off"
+
+    echo -e "\n"
+    read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
+    GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
+    echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
+
     wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz
     sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz 
     mkdir -p "${GO_PATH}"

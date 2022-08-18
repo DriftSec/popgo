@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# if a GOPATH is not specified wiwth $1, you will be prompted for it.
+ARG_GO_PATH="${1}"
+
 # set -e
-GO_VERSION_DEFAULT="1.18.2"
+GO_VERSION_DEFAULT="1.18.3"
 GO_PATH_DEFAULT="$HOME/go"
 
 Color_Off='\033[0m'       # Text Reset
@@ -77,8 +80,12 @@ if ! [ -x "$(command -v go)" ]; then
     echo -e "$Yellow[+] Installing Go version ${GO_VERSION} ...$Color_Off"
 
     echo -e "\n"
-    read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
-    GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
+
+    GO_PATH="${ARG_GO_PATH}"
+    if [ -z ARG_GO_PATH="${1}" ]; then 
+        read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
+        GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
+    fi
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
     wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"

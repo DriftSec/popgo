@@ -69,7 +69,7 @@ if ! [ -x "$(command -v gcc)" ]; then
     sudo apt update
     sudo apt install build-essential
 fi
-echo -e "$Green[+] gcc is isntalled$Color_Off"
+echo -e "$Green[+] gcc is installed$Color_Off"
 
 if ! [ -x "$(command -v go)" ]; then
     echo -e "$Red[-] Go not found!$Color_Off"

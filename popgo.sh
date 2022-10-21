@@ -25,14 +25,15 @@ exit_on_error() {
 
 
 declare -a GETS=(
-github.com/driftsec/lstcmp
-github.com/driftsec/urlencode
-github.com/driftsec/urltree
-github.com/driftsec/httprobex
-github.com/driftsec/pnmap
-github.com/driftsec/pffuf
-github.com/driftsec/goserver
-github.com/driftsec/replay
+github.com/DriftSec/lstcmp
+github.com/DriftSec/urlencode
+github.com/DriftSec/urltree
+github.com/DriftSec/httprobex
+github.com/DriftSec/pnmap
+github.com/DriftSec/pffuf
+github.com/DriftSec/goserver
+github.com/DriftSec/replay
+github.com/DriftSec/resolve
 github.com/tomnomnom/meg
 github.com/tomnomnom/anew
 github.com/tomnomnom/unfurl

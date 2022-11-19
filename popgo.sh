@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # if a GOPATH is not specified wiwth $1, you will be prompted for it.
-ARG_GO_PATH="${1}"
+# ARG_GO_PATH="${1}"
 
 # set -e
-GO_VERSION_DEFAULT="1.18.3"
+GO_VERSION_DEFAULT="1.19.3"
 GO_PATH_DEFAULT="$HOME/go"
+
+
 
 Color_Off='\033[0m'       # Text Reset
 Black='\033[0;30m'        # Black
@@ -25,6 +27,7 @@ exit_on_error() {
 
 
 declare -a GETS=(
+
 github.com/DriftSec/lstcmp
 github.com/DriftSec/urlencode
 github.com/DriftSec/urltree
@@ -69,7 +72,7 @@ if ! [ -x "$(command -v gcc)" ]; then
     sudo apt update
     sudo apt install build-essential
 fi
-echo -e "$Green[+] gcc is installed$Color_Off"
+echo -e "$Green[+] gcc is isntalled$Color_Off"
 
 if ! [ -x "$(command -v go)" ]; then
     echo -e "$Red[-] Go not found!$Color_Off"
@@ -82,11 +85,12 @@ if ! [ -x "$(command -v go)" ]; then
 
     echo -e "\n"
 
-    GO_PATH="${ARG_GO_PATH}"
-    if [ -z ARG_GO_PATH="${1}" ]; then 
-        read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
+    # GO_PATH="${ARG_GO_PATH}"
+    # if [ -z ARG_GO_PATH="${1}" ]; then 
+    #     read -p "Where do want GOPATH to be? [\$HOME/go]> " GO_PATH
         GO_PATH=${GO_PATH:-$GO_PATH_DEFAULT}
-    fi
+    # fi
+    
     echo -e "$Blue[!] GOPATH will be: $GO_PATH$Color_Off"
 
     wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -O /tmp/go${GO_VERSION}.linux-amd64.tar.gz || exit_on_error "wget"
@@ -106,7 +110,15 @@ fi
 echo -e "$Green[+] Go is installed$Color_Off"
 
 # GO111MODULE=auto
-for var in "${GETS[@]}"; do
-  echo -e "$Yellow[+] Installing ${var}$Color_Off"
-  go install ${var}@latest || echo -e "$Red[ERROR] failed to isntall ${var}$Color_Off"
-done
+
+if [ ! -z "${JUST_GO}" ]; then
+    for var in "${GETS[@]}"; do
+    echo -e "$Yellow[+] Installing ${var}$Color_Off"
+    go install ${var}@latest || echo -e "$Red[ERROR] failed to isntall ${var}$Color_Off"
+    done
+else 
+    echo -e "$Blue[!] JUST_GO is set, skipping module install.$Color_Off" 
+
+
+fi
+echo -e "$Green[+] Finished.$Color_Off"     

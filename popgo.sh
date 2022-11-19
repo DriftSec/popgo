@@ -111,7 +111,7 @@ echo -e "$Green[+] Go is installed$Color_Off"
 
 # GO111MODULE=auto
 
-if [ ! -z "${JUST_GO}" ]; then
+if [ -z "${JUST_GO}" ]; then
     for var in "${GETS[@]}"; do
     echo -e "$Yellow[+] Installing ${var}$Color_Off"
     go install ${var}@latest || echo -e "$Red[ERROR] failed to isntall ${var}$Color_Off"
